@@ -1,0 +1,61 @@
+; OS Functions
+_processCmd:
+            jmp 0x00000420
+_clearScr:
+            jmp 0x00000426
+_printText:
+            jmp 0x0000042C
+_printChar:
+            jmp 0x00000432
+_delayms:
+            jmp 0x00000438
+_loadSerialToMem:
+            jmp 0x0000043E
+_readChar:
+            jmp 0x00000444
+_hideCursor:
+            jmp 0x0000044A
+_showCursor:
+            jmp 0x00000450
+_inputLine:
+            jmp 0x00000456
+_modeVideo:
+            jmp 0x0000045C
+_vdp_init:
+            jmp 0x00000462
+_vdp_colorize:
+            jmp 0x00000468
+_vdp_plot_hires:
+            jmp 0x0000046E
+_vdp_plot_color:
+            jmp 0x00000474
+_vdp_set_bdcolor:
+            jmp 0x0000047A
+_vdp_set_pattern_color:
+            jmp 0x00000480
+_vdp_set_cursor:
+            jmp 0x00000486
+_vdp_set_cursor_pos:
+            jmp 0x0000048C
+_vdp_textcolor:
+            jmp 0x00000492
+_vdp_write:
+            jmp 0x00000498
+_vdp_set_sprite_pattern:
+            jmp 0x0000049E
+_vdp_sprite_color:
+            jmp 0x000004A4
+_vdp_sprite_get_attributes:
+            jmp 0x000004AA
+_vdp_sprite_get_position:
+            jmp 0x000004B0
+_vdp_sprite_init:
+            jmp 0x000004B6
+_vdp_sprite_set_position:
+            jmp 0x000004BC
+_writeLongSerial:
+            jmp 0x000004C2
+_writeSerial:
+            jmp 0x000004C8
+_vdp_read_color_pixel:
+            jmp 0x000004CE

@@ -1,0 +1,198 @@
+* Executar SO pre-carregado no endereço de memoria 0x00800000
+*
+_runSO:
+       jmp       $00800000       ; Jump to positio ram memory
+
+_runCmd:
+       movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+       jsr       $00810000       ; Jump to position ram memory
+       movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+       rts
+
+_runBas:
+       movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+       jsr       $00005400       ; Jump to position Basic ram memory
+       movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+       rts
+
+* Executar Funcoes Trap #15
+*
+_trapFunc0:
+       rte
+_trapFuncs:
+       movem.l a1/d0,-(a7)       ; save registers
+       jsr       _basicFuncBios
+       movem.l (a7)+,a1/d0       ; restore registers
+       rte
+
+* Interrupcoes
+*
+_intSpuriousInt:
+       movem.l a1/d0,-(a7)       ; save registers
+       jsr       _funcSpuriousInt
+       movem.l (a7)+,a1/d0       ; restore registers
+       rte
+
+_intPIC:
+       movem.l a1/d0,-(a7)       ; save registers
+       jsr       _funcIntPIC
+       movem.l (a7)+,a1/d0       ; restore registers
+       rte
+
+_intUsbSerial:
+       movem.l a1/d0,-(a7)       ; save registers
+       jsr       _funcIntUsbSerial
+       movem.l (a7)+,a1/d0       ; restore registers
+       rte
+
+_intVideo:
+       movem.l a1/d0,-(a7)       ; save registers
+       jsr       _funcIntVideo
+       movem.l (a7)+,a1/d0       ; restore registers
+       rte
+
+_intMouse:
+       movem.l a1/d0,-(a7)       ; save registers
+       jsr       _funcIntMouse
+       movem.l (a7)+,a1/d0       ; restore registers
+       rte
+
+_intKeyboard:
+       movem.l a1/d0,-(a7)       ; save registers
+       jsr       _funcIntKeyboard
+       movem.l (a7)+,a1/d0       ; restore registers
+       rte
+
+_intMultiTask:
+       move.l    _intpos,A1
+       move.l    (A1),A0
+       move.l    (A1),D0               ; compara se (_intpos) = 0
+       cmp.l     $0,D0
+       beq.s     _intMultiTask_1       ; se for = 0, pula para o RTE
+       jmp       (A0)                  ; se nao, chama subrotina de multitask no OS
+_intMultiTask_1:
+       rte
+
+_intMfpGpi0:
+       movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)      ; movem.l a1/d0,-(a7)       ; save registers
+       jsr       _funcIntMfpGpi0
+       movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5      ; movem.l (a7)+,a1/d0       ; restore registers
+       rte
+_intMfpGpi1:
+       movem.l a1/d0,-(a7)       ; save registers
+       jsr       _funcIntMfpGpi1
+       movem.l (a7)+,a1/d0       ; restore registers
+       rte
+_intMfpGpi2:
+       movem.l a1/d0,-(a7)       ; save registers
+       jsr       _funcIntMfpGpi2
+       movem.l (a7)+,a1/d0       ; restore registers
+       rte
+_intMfpGpi3:
+       movem.l a1/d0,-(a7)       ; save registers
+       jsr       _funcIntMfpGpi3
+       movem.l (a7)+,a1/d0       ; restore registers
+       rte
+_intMfpTmrD:
+       movem.l a1/d0,-(a7)       ; save registers
+       jsr       _funcIntMfpTmrD
+       movem.l (a7)+,a1/d0       ; restore registers
+       rte
+_intMfpTmrC:
+       movem.l a1/d0,-(a7)       ; save registers
+       jsr       _funcIntMfpTmrC
+       movem.l (a7)+,a1/d0       ; restore registers
+       rte
+_intMfpGpi4:
+       movem.l a1/d0,-(a7)       ; save registers
+       jsr       _funcIntMfpGpi4
+       movem.l (a7)+,a1/d0       ; restore registers
+       rte
+_intMfpGpi5:
+       movem.l a1/d0,-(a7)       ; save registers
+       jsr       _funcIntMfpGpi5
+       movem.l (a7)+,a1/d0       ; restore registers
+       rte
+_intMfpTmrB:
+       movem.l a1/d0,-(a7)       ; save registers
+       jsr       _funcIntMfpTmrB
+       movem.l (a7)+,a1/d0       ; restore registers
+       rte
+_intMfpXmitErr:
+       movem.l a1/d0,-(a7)       ; save registers
+       jsr       _funcIntMfpXmitErr
+       movem.l (a7)+,a1/d0       ; restore registers
+       rte
+_intMfpXmitBufEmpty:
+       movem.l a1/d0,-(a7)       ; save registers
+       jsr       _funcIntMfpXmitBufEmpty
+       movem.l (a7)+,a1/d0       ; restore registers
+       rte
+_intMfpRecErr:
+       movem.l a1/d0,-(a7)       ; save registers
+       jsr       _funcIntMfpRecErr
+       movem.l (a7)+,a1/d0       ; restore registers
+       rte
+_intMfpRecBufFull:
+       movem.l a1/d0,-(a7)       ; save registers
+       jsr       _funcIntMfpRecBufFull
+       movem.l (a7)+,a1/d0       ; restore registers
+       rte
+_intMfpTmrA:
+       movem.l a1/d0,-(a7)       ; save registers
+       jsr       _funcIntMfpTmrA
+       movem.l (a7)+,a1/d0       ; restore registers
+       rte
+_intMfpGpi6:
+       movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)      ; movem.l a1/d0,-(a7)       ; save registers
+       jsr       _funcIntMfpGpi6
+       movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5      ; movem.l (a7)+,a1/d0       ; restore registers
+       rte
+_intMfpGpi7:
+       movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)      ; movem.l a1/d0,-(a7)       ; save registers
+       jsr       _funcIntMfpGpi7
+       movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5      ; movem.l (a7)+,a1/d0       ; restore registers
+       rte
+_errorBusAddr:
+       move.w #$0000,($0060E208)
+       jmp _errorProc
+_errorIllegalInst:
+       move.w #$0001,($0060E208)
+       jmp _errorProc
+_errorZeroDivide:
+       move.w #$0002,($0060E208)
+       jmp _errorProc
+_errorChkInst:
+       move.w #$0003,($0060E208)
+       jmp _errorProc
+_errorTrapV:
+       move.w #$0004,($0060E208)
+       jmp _errorProc
+_errorPrivV:
+       move.w #$0005,($0060E208)
+       jmp _errorProc
+       nop
+       nop
+_errorProc:
+       movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5/A6,-(A7)      ; movem.l a1/d0,-(a7)       ; save registers
+       MOVE #65,D0               ; 30 bytes to read (15 words)
+       MOVE.l #$0060E20A,A0     ; error buffer (*errorBufferAddrBus)
+ERRORLOOP:
+       MOVE.w (A7)+,(A0)+        ; SP to error buffer
+       DBRA D0,ERRORLOOP         ; until all bytes copied to buffer error (A0)
+       move.l  #_fontesMatrix,D1   ; colocar endereco da variavel que vai ser de ponteiro para a posicao das fontes apos a compilacao
+       move.l  D1,($00611816)              ; colocar endereco apos a compilacao de onde estao as fontes para VGA
+       jmp      _funcErrorBusAddr
+       rte
+_traceDebug:
+       MOVE.l A7,($0060E692)      ; SP to A7 temp buffer
+       movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)      ; movem.l a1/d0,-(a7)       ; save registers
+       MOVE.l ($0060E692),A1      ; trace A7 temp buffer
+       MOVE.l ($0060E68C),A0      ; trace buffer (*traceData)
+       MOVE #7,D0                 ; 8 words
+TRACELOOP:
+       move.w (A1)+,(A0)+
+       DBRA D0,TRACELOOP          ; until all bytes copied to buffer trace (A0)
+       MOVE.l A0,($0060E68C)      ; trace buffer (*traceData)
+       movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5      ; movem.l (a7)+,a1/d0       ; restore registers
+       rte

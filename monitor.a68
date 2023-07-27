@@ -1,0 +1,159 @@
+            org     $0
+            dc.l    $0063FFFE            ; Stack Pointer Inicial
+            dc.l    $00000400            ; Endereço Inicial do Programa
+
+            org     $8
+            dc.l    _errorBusAddr        ; Bus Error
+
+            org     $C
+            dc.l    _errorBusAddr        ; Address Error
+
+            org     $10
+            dc.l    _errorIllegalInst    ; Illegal Instruction
+
+            org     $14
+            dc.l    _errorZeroDivide     ; Zero Divide
+
+            org     $18
+            dc.l    _errorChkInst        ; CHK instruction
+
+            org     $1C
+            dc.l    _errorTrapV          ; TrapV
+
+            org     $20
+            dc.l    _errorPrivV          ; Privilege Violation
+
+            org     $24
+            dc.l    _traceDebug          ; Trace
+
+            org     $3C
+            dc.l    _intSpuriousInt      ; Vector 15 - Initialized Interrupt
+
+            org     $60
+            dc.l    _intSpuriousInt      ; Vector 24 - Spurious Interrupt
+
+            org     $64
+            dc.l    _intSpuriousInt      ; AutoVector 1 - Multitask Interrupt
+            dc.l    _intSpuriousInt      ; AutoVector 2 - Pic Interrupt
+            dc.l    _intSpuriousInt      ; AutoVector 3 - USB/Serial Interrupt
+            dc.l    _intSpuriousInt      ; AutoVector 4 - Video Interrupt
+            dc.l    _intSpuriousInt      ; AutoVector 5 - Mouse Interrupt
+            dc.l    _intSpuriousInt      ; AutoVector 6 - Keyboard Interrupt
+            dc.l    _intSpuriousInt      ; AutoVector 7 - NMI (A Definir)
+
+            org     $80
+            dc.l    _trapFunc0           ; Trap 0
+            dc.l    _trapFunc0            ; Trap 1
+            dc.l    _trapFunc0            ; Trap 2
+            dc.l    _trapFunc0            ; Trap 3
+            dc.l    _trapFunc0            ; Trap 4
+            dc.l    _trapFunc0            ; Trap 5
+            dc.l    _trapFunc0            ; Trap 6
+            dc.l    _trapFunc0            ; Trap 7
+            dc.l    _trapFunc0            ; Trap 8
+            dc.l    _trapFunc0            ; Trap 9
+            dc.l    _trapFunc0            ; Trap 10
+            dc.l    _trapFunc0            ; Trap 11
+            dc.l    _trapFunc0            ; Trap 12
+            dc.l    _trapFunc0            ; Trap 13
+            dc.l    _trapFunc0            ; Trap 14
+            dc.l    _trapFuncs           ; Trap 15 - Basic Bios Functions
+
+            org     $100                 ; 110 / 001 - nivel 1 - Nivel geral de todas as interrupcoes
+                                         ; 111 / 000 - nivel 7 - NMI (A Definir)
+            dc.l    _intMultiTask        ; Vector 64 - Multitask Interrupt
+            dc.l    _intPIC              ; Vector 65 - PIC Interrupt
+            dc.l    _intUsbSerial        ; Vector 66 - USB/Serial Interrupt
+            dc.l    _intVideo            ; Vector 67 - Video Interrupt
+            dc.l    _intMouse            ; Vector 68 - Mouse Interrupt
+            dc.l    _intKeyboard         ; Vector 69 - Keyboard Interrupt
+            dc.l    _intSpuriousInt      ; Vector 70 - NMI (A Definir)
+
+            org     $280
+            dc.l    _intMfpGpi0          ; Vector $A0 - 0 0 0 0 General Purpose Interrupt 0 (I0)
+            dc.l    _intMfpGpi1          ; Vector $A1 - 0 0 0 1 General Purpose Interrupt 1 (I1)
+            dc.l    _intMfpGpi2          ; Vector $A2 - 0 0 1 0 General Purpose Interrupt 2 (I2)
+            dc.l    _intMfpGpi3          ; Vector $A3 - 0 0 1 1 General Purpose Interrupt 3 (I3)
+            dc.l    _intMfpTmrD          ; Vector $A4 - 0 1 0 0 Timer D
+            dc.l    _intMfpTmrC          ; Vector $A5 - 0 1 0 1 Timer C
+            dc.l    _intMfpGpi4          ; Vector $A6 - 0 1 1 0 General Purpose Interrupt 4(I4)
+            dc.l    _intMfpGpi5          ; Vector $A7 - 0 1 1 1 General Purpose Interrupt 5 (I5)
+            dc.l    _intMfpTmrB          ; Vector $A8 - 1 0 0 0 Timer B
+            dc.l    _intMfpXmitErr       ; Vector $A9 - 1 0 0 1 Transmit Error
+            dc.l    _intMfpXmitBufEmpty  ; Vector $AA - 1 0 1 0 Transmit Buffer Empty
+            dc.l    _intMfpRecErr        ; Vector $AB - 1 0 1 1 Receive Error
+            dc.l    _intMfpRecBufFull    ; Vector $AC - 1 1 0 0 Receiver Buffer Full
+            dc.l    _intMfpTmrA          ; Vector $AD - 1 1 0 1 Timer A
+            dc.l    _intMfpGpi6          ; Vector $AE - 1 1 1 0 General Purpose Interrupt 6 (I6)
+            dc.l    _intMfpGpi7          ; Vector $AF - 1 1 1 1 General Purpose Interrupt 7 (I7)
+
+            org     $400
+            move    #$2000,SR            ; nivel supervisor e mascara de interrupção nao setada, 0
+            move.l  _intpos.L,A1         ; zerar posicao do local do multitask, enquanto estiver 0 nao chama a rotina
+            move.l  #0,(A1)              ; quem preenche isso é o OS (SE USAR)
+            move.l  #_fontesMatrix,D1   ; colocar endereco da variavel que vai ser de ponteiro para a posicao das fontes apos a compilacao
+            move.l  D1,$00611816              ; colocar endereco apos a compilacao de onde estao as fontes para VGA
+            bra _main
+
+
+            ; OS Functions
+_APIprocessCmd:
+            jmp _processCmd
+_APIclearScr:
+            jmp _clearScr
+_APIprintText:
+            jmp _printText
+_APIprintChar:
+            jmp _printChar
+_APIdelayms:
+            jmp _delayms
+_APIloadSerialToMem:
+            jmp _loadSerialToMem            
+_APIreadChar:
+            jmp _readChar
+_APIhideCursor:
+            jmp _hideCursor
+_APIshowCursor:
+            jmp _showCursor
+_APIinputLine:
+            jmp _inputLine            
+_APImodeVideo:
+            jmp _modeVideo
+_APIvdp_init:
+            jmp _vdp_init
+_APIvdp_colorize:
+            jmp _vdp_colorize
+_APIvdp_plot_hires:
+            jmp _vdp_plot_hires
+_APIvdp_plot_color:
+            jmp _vdp_plot_color
+_APIvdp_set_bdcolor:
+            jmp _vdp_set_bdcolor
+_APIvdp_set_pattern_color:
+            jmp _vdp_set_pattern_color
+_APIvdp_set_cursor:
+            jmp _vdp_set_cursor
+_APIvdp_set_cursor_pos:
+            jmp _vdp_set_cursor_pos
+_APIvdp_textcolor:
+            jmp _vdp_textcolor
+_APIvdp_write:
+            jmp _vdp_write
+_APIvdp_set_sprite_pattern:
+            jmp _vdp_set_sprite_pattern
+_APIvdp_sprite_color:
+            jmp _vdp_sprite_color
+_APIvdp_sprite_get_attributes:
+            jmp _vdp_sprite_get_attributes
+_APIvdp_sprite_get_position:
+            jmp _vdp_sprite_get_position
+_APIvdp_sprite_init:
+            jmp _vdp_sprite_init
+_APIvdp_sprite_set_position:
+            jmp _vdp_sprite_set_position
+_APIwriteLongSerial:
+            jmp _writeLongSerial
+_APIwriteSerial:
+            jmp _writeSerial
+_APIvdp_read_color_pixel:
+            jmp _vdp_read_color_pixel
