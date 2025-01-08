@@ -1,0 +1,42 @@
+FFPFPA
+           rts
+FFPAFP
+           rts
+FFPADD
+           rts
+FFPSUB
+           rts
+FFPMUL2
+           rts
+FFPDIV
+           rts
+FFPPWR
+           rts
+FFPCMP
+           rts
+FFPFPI
+           rts
+FFPIFP
+           rts
+FFPSIN
+           rts
+FFPCOS
+           rts
+FFPTAN
+           rts
+FFPSINH
+           rts
+FFPCOSH
+           rts
+FFPTANH
+           rts
+FFPSQRT
+           rts
+FFPLOG
+           rts
+FFPEXP
+           rts
+FFPABS
+           rts
+FFPNEG
+           rts

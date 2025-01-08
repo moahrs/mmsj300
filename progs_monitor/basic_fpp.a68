@@ -1,0 +1,167 @@
+; Basic Floating Single Precision Functions
+
+_FP_TO_STR:  
+            movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+            MOVE.l ($008FEE9E),D7
+            MOVE.w  #0,-(SP)         ; Push string terminator NUL onto stack
+            jsr FFPFPA
+            MOVE #7,D0               ; 15 digits to read (7 words + null word terminator)
+            MOVE.l ($008FEFA6),A0
+  MMSJLOOP: MOVE.w (SP)+,(A0)+
+            DBRA D0,MMSJLOOP         ; until all digits copied to buffer (A0)
+            movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+            rts
+_STR_TO_FP:  
+            movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+            MOVE.l ($008FEFA6),A0
+            jsr FFPAFP
+            MOVE.l D7,($008FEE9E)
+            movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+            rts
+_FPP_SUM:  
+            movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+            MOVE.l ($008FEE9E),D7
+            MOVE.l ($008FEE96),D6
+            jsr FFPADD
+            MOVE.l D7,($008FEE9E)
+            movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+            rts
+_FPP_SUB:  
+            movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+            MOVE.l ($008FEE9E),D7
+            MOVE.l ($008FEE96),D6
+            jsr FFPSUB
+            MOVE.l D7,($008FEE9E)
+            movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+            rts
+_FPP_MUL:  
+            movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+            MOVE.l ($008FEE9E),D7
+            MOVE.l ($008FEE96),D6
+            jsr FFPMUL2
+            MOVE.l D7,($008FEE9E)
+            movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+            rts
+_FPP_DIV:  
+            movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+            MOVE.l ($008FEE9E),D7
+            MOVE.l ($008FEE96),D6
+            jsr FFPDIV
+            MOVE.l D7,($008FEE9E)
+            movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+            rts
+_FPP_PWR:  
+            movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+            MOVE.l ($008FEE9E),D7
+            MOVE.l ($008FEE96),D6
+            jsr FFPPWR
+            MOVE.l D7,($008FEE9E)
+            movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+            rts
+_FPP_CMP:  
+            movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+            MOVE.l ($008FEE9E),D7
+            MOVE.l ($008FEE96),D6
+            jsr FFPCMP                   ; retorno pelo CCR (comparar ele e verificar pelo estado) 
+            move SR,D7
+            MOVE.l D7,($008FEE9E)        ; Devolve SR para ser analisado no basic
+            movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+            rts
+_FPP_INT:  
+            movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+            MOVE.l ($008FEE9E),D7
+            jsr FFPFPI
+            MOVE.l D7,($008FEE9E)
+            movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+            rts
+_FPP_FPP:  
+            movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+            MOVE.l ($008FEE9E),D7
+            jsr FFPIFP
+            MOVE.l D7,($008FEE9E)
+            movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+            rts
+_FPP_SIN:  
+            movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+            MOVE.l ($008FEE9E),D7
+            jsr FFPSIN
+            MOVE.l D7,($008FEE9E)
+            movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+            rts
+_FPP_COS:  
+            movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+            MOVE.l ($008FEE9E),D7
+            jsr FFPCOS
+            MOVE.l D7,($008FEE9E)
+            movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+            rts
+_FPP_TAN:  
+            movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+            MOVE.l ($008FEE9E),D7
+            jsr FFPTAN
+            MOVE.l D7,($008FEE9E)
+            movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+            rts
+_FPP_SINH:  
+            movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+            MOVE.l ($008FEE9E),D7
+            jsr FFPSINH
+            MOVE.l D7,($008FEE9E)
+            movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+            rts
+_FPP_COSH:  
+            movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+            MOVE.l ($008FEE9E),D7
+            jsr FFPCOSH
+            MOVE.l D7,($008FEE9E)
+            movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+            rts
+_FPP_TANH:  
+            movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+            MOVE.l ($008FEE9E),D7
+            jsr FFPTANH
+            MOVE.l D7,($008FEE9E)
+            movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+            rts
+_FPP_SQRT:  
+            movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+            MOVE.l ($008FEE9E),D7
+            jsr FFPSQRT
+            MOVE.l D7,($008FEE9E)
+            movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+            rts
+_FPP_LN:  
+            movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+            MOVE.l ($008FEE9E),D7
+            jsr FFPLOG
+            MOVE.l D7,($008FEE9E)
+            movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+            rts
+_FPP_EXP:  
+            movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+            MOVE.l ($008FEE9E),D7
+            jsr FFPEXP
+            MOVE.l D7,($008FEE9E)
+            movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+            rts
+_FPP_ABS:  
+            movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+            MOVE.l ($008FEE9E),D7
+            jsr FFPABS
+            MOVE.l D7,($008FEE9E)
+            movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+            rts
+_FPP_NEG:  
+            movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+            MOVE.l ($008FEE9E),D7
+            jsr FFPNEG
+            MOVE.l D7,($008FEE9E)
+            movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+            rts
+_TRACE_ON:
+            MOVE.l  #$00850000,($0060E68C) 
+            move    #$A000,SR
+            rts
+_TRACE_OFF:
+            move    #$2000,SR
+            rts
