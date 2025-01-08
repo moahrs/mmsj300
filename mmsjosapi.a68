@@ -1,0 +1,65 @@
+             org     $00800000           ; Endere�o Inicial do Programa
+;            move.l    A7,($00FFEF00)
+;            lea       $00FFDFFE,A7
+start:       lea data(PC),A5
+             bra _main
+
+execso:      bra _main
+
+            ; OS Functions
+_APIfsOsCommand:
+            jmp _fsOsCommand
+_APIfsFormat:
+            jmp _fsFormat
+_APIfsSetClusterDir:
+            jmp _fsSetClusterDir
+_APIfsGetClusterDir:
+            jmp _fsGetClusterDir
+_APIfsSectorWrite:
+            jmp _fsSectorWrite
+_APIfsSectorRead:
+            jmp _fsSectorRead
+_APIfsSendByte:
+            jmp _fsSendByte
+_APIfsRecByte:
+            jmp _fsRecByte
+_APIfsCreateFile:
+            jmp _fsCreateFile
+_APIfsOpenFile:
+            jmp _fsOpenFile
+_APIfsCloseFile:
+            jmp _fsCloseFile
+_APIfsInfoFile:
+            jmp _fsInfoFile
+_APIfsRWFile:
+            jmp _fsRWFile
+_APIfsReadFile:
+            jmp _fsReadFile
+_APIfsWriteFile:
+            jmp _fsWriteFile
+_APIfsDelFile:
+            jmp _fsDelFile
+_APIfsRenameFile:
+            jmp _fsRenameFile
+_APIloadFile:
+            jmp _loadFile
+_APIfsMakeDir:
+            jmp _fsMakeDir
+_APIfsChangeDir:
+            jmp _fsChangeDir
+_APIfsRemoveDir:
+            jmp _fsRemoveDir
+_APIfsPwdDir:
+            jmp _fsPwdDir
+_APIfsFindInDir:
+            jmp _fsFindInDir
+_APIfsUpdateDir:
+            jmp _fsUpdateDir
+_APIfsFindNextCluster:
+            jmp _fsFindNextCluster
+_APIfsFindClusterFree:
+            jmp _fsFindClusterFree
+
+             section data
+             align
+data         equ *

@@ -1,7 +1,10 @@
-* Executar SO pre-carregado no endereço de memoria 0x00800000
+* Executar SO pre-carregado no endereï¿½o de memoria 0x00800000
 *
 _runSO:
-       jmp       $00800000       ; Jump to positio ram memory
+       movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+       jsr       $00800008       ; Jump to position ram memory
+       movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+       rts
 
 _runCmd:
        movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
@@ -11,7 +14,13 @@ _runCmd:
 
 _runBas:
        movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
-       jsr       $00005400       ; Jump to position Basic ram memory
+       jsr       $00008000       ; Jump to position Basic ram memory
+       movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+       rts
+
+_runOSCmd:
+       movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+       jsr       $00800170                          ; lembrar de ajustar esse endereï¿½o se ele mudar
        movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
        rts
 
@@ -139,9 +148,9 @@ _intMfpRecBufFull:
        movem.l (a7)+,a1/d0       ; restore registers
        rte
 _intMfpTmrA:
-       movem.l a1/d0,-(a7)       ; save registers
+       movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)      ; movem.l a1/d0,-(a7)       ; save registers
        jsr       _funcIntMfpTmrA
-       movem.l (a7)+,a1/d0       ; restore registers
+       movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5      ; movem.l (a7)+,a1/d0       ; restore registers
        rte
 _intMfpGpi6:
        movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)      ; movem.l a1/d0,-(a7)       ; save registers

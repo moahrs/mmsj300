@@ -1,0 +1,11 @@
+            org     $00810000           ; Endereço Inicial do Programa
+;            move.l    A7,($00FFEF00)
+;            lea       $00FFDFFE,A7
+start:       lea data(PC),A5
+             bra _main
+
+             section data
+             align
+data         equ *
+
+

@@ -1,0 +1,52 @@
+_fsOsCommand:
+            jmp 0x0080000C
+_fsFormat:
+            jmp 0x00800012
+_fsSetClusterDir:
+            jmp 0x00800018
+_fsGetClusterDir:
+            jmp 0x0080001E
+_fsSectorWrite:
+            jmp 0x00800024
+_fsSectorRead:
+            jmp 0x0080002A
+_fsSendByte:
+            jmp 0x00800030
+_fsRecByte:
+            jmp 0x00800036
+_fsCreateFile:
+            jmp 0x0080003C
+_fsOpenFile:
+            jmp 0x00800042
+_fsCloseFile:
+            jmp 0x00800048
+_fsInfoFile:
+            jmp 0x0080004E
+_fsRWFile:
+            jmp 0x00800054
+_fsReadFile:
+            jmp 0x0080005A
+_fsWriteFile:
+            jmp 0x00800060
+_fsDelFile:
+            jmp 0x00800066
+_fsRenameFile:
+            jmp 0x0080006C
+_loadFile:
+            jmp 0x00800072
+_fsMakeDir:
+            jmp 0x00800078
+_fsChangeDir:
+            jmp 0x0080007E
+_fsRemoveDir:
+            jmp 0x00800084
+_fsPwdDir:
+            jmp 0x0080008A
+_fsFindInDir:
+            jmp 0x00800090
+_fsUpdateDir:
+            jmp 0x00800096
+_fsFindNextCluster:
+            jmp 0x0080009C
+_fsFindClusterFree:
+            jmp 0x008000A2
