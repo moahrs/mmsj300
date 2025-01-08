@@ -1,0 +1,12 @@
+             org     $00830000           ; Endereço Inicial do Programa
+;            move.l    A7,($00FFEF00)
+;            lea       $00FFDFFE,A7
+start:       ;lea data(PC),A5
+             bra _main
+
+ID_AREA:
+             dc.b    'MGUIAPP',0
+
+             section data
+             align
+data         equ *

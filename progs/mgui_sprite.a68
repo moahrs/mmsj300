@@ -1,0 +1,18 @@
+_spritePointer:
+	    ;  Dados para Sprite Ponteiro Mouse 8x8
+		dc.b $80,$C0,$E0,$F0,$F8,$FC,$30,$18 ; Seta ponteiro mouse
+
+_spriteHourGlass:
+	    ;  Dados para Sprite Ampulheta Mouse 8x8
+		dc.b $7F,$32,$1C,$1C,$1C,$1C,$2E,$7F ; Ampulheta
+
+_iconesMenu:
+	    ;  Dados para Icones do Menu e Diversos
+		dc.b $00,$07,$FF,$9F,$BF,$FF,$FF,$00 ; Arquivo
+		dc.b $18,$3D,$1A,$7C,$98,$1E,$21,$40 ; Executar
+		dc.b $00,$80,$40,$30,$30,$40,$8F,$00 ; Comando
+		dc.b $06,$0F,$1F,$0E,$14,$60,$E0,$C0 ; Configurar
+		dc.b $18,$5A,$99,$99,$C3,$66,$18,$00 ; Sair
+		dc.b $03,$07,$0F,$1F,$0F,$07,$03,$00 ; <
+		dc.b $C0,$E0,$F0,$F8,$F0,$E0,$C0,$00 ; >
+		dc.b $30,$41,$84,$84,$41,$34,$02,$01 ; Procurar

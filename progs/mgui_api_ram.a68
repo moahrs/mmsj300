@@ -1,0 +1,48 @@
+_drawButtons:
+            jmp 0x00810028
+_showWindow:
+            jmp 0x0081002E
+_message:
+            jmp 0x00810034
+_waitButton:
+            jmp 0x0081003A
+_VerifyMouse:
+            jmp 0x00810040
+_readMousePs2:
+            jmp 0x00810046
+_PutImage:
+            jmp 0x0081004C
+_SelRect:
+            jmp 0x00810052
+_InvertRect:
+            jmp 0x00810058
+_PutIcone:
+            jmp 0x0081005E
+_DrawCircle:
+            jmp 0x00810064
+_DrawRoundRect:
+            jmp 0x0081006A
+_DrawRect:
+            jmp 0x00810070
+_DrawLine:
+            jmp 0x00810076
+_FillRect:
+            jmp 0x0081007C
+_SetDot:
+            jmp 0x00810082
+_RestoreScreen:
+            jmp 0x00810088
+_SaveScreen:
+            jmp 0x0081008E
+_locatexy:
+            jmp 0x00810094
+_writecxy:
+            jmp 0x0081009A
+_writesxy:
+            jmp 0x008100A0
+_fillin:
+            jmp 0x008100A6
+_TrocaSpriteMouse:
+            jmp 0x008100AC
+_MostraIcone:
+            jmp 0x008100B2

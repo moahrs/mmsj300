@@ -1,0 +1,71 @@
+             org     $00810000           ; Endereço Inicial do Programa
+;            move.l    A7,($00FFEF00)
+;            lea       $00FFDFFE,A7
+start:       ;lea data(PC),A5
+             move.l  #_spritePointer,D1 ; colocar endereco da variavel que vai ser de ponteiro para a posicao do sprite apos a compilacao
+             move.l  D1,$00820006
+             move.l  #_spriteHourGlass,D1 ; colocar endereco da variavel que vai ser de ampulheta para a posicao do sprite apos a compilacao
+             move.l  D1,$0082001A
+             move.l  #_iconesMenu,D1 ; colocar endereco da variavel que vai ser de de opções do menu
+             move.l  D1,$0082001E
+             bra _main
+
+            ; Graphical Functions
+_APIdrawButtons:
+            jmp _drawButtons
+_APIshowWindow:
+            jmp _showWindow
+_APImessage:
+            jmp _message
+_APIwaitButton:
+            jmp _waitButton
+_APIVerifyMouse:
+            jmp _VerifyMouse
+_APIreadMousePs2:
+            jmp _readMousePs2
+_APIPutImage:
+            jmp _PutImage
+_APISelRect:
+            jmp _SelRect
+_APIInvertRect:
+            jmp _InvertRect
+_APIPutIcone:
+            jmp _PutIcone
+_APIDrawCircle:
+            jmp _DrawCircle
+_APIDrawRoundRect:
+            jmp _DrawRoundRect
+_APIDrawRect:
+            jmp _DrawRect
+_APIDrawLine:
+            jmp _DrawLine
+_APIFillRect:
+            jmp _FillRect
+_APISetDot:
+            jmp _SetDot
+_APIRestoreScreen:
+            jmp _RestoreScreen
+_APISaveScreen:
+            jmp _SaveScreen
+_APIlocatexy:
+            jmp _locatexy
+_APIwritecxy:
+            jmp _writecxy
+_APIwritesxy:
+            jmp _writesxy
+_APIfillin:
+            jmp _fillin
+_APITrocaSpriteMouse:
+            jmp _TrocaSpriteMouse
+_APIMostraIcone:
+            jmp _MostraIcone
+                        
+_runFromMguiCmd:
+            movem.l   D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5,-(A7)
+            jsr       $00830000       ; Jump to position ram memory
+            movem.l   (A7)+,D0/D1/D2/D3/D4/D5/D6/D7/A0/A1/A2/A3/A4/A5
+            rts
+
+             section data
+             align
+data         equ *
